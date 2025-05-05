@@ -7,14 +7,16 @@ import { UpdateAiDto } from './dto/update-ai.dto';
 export class AiController {
   constructor(private readonly aiService: AiService) {}
 
-  @Post('ask')
-  create(@Body() createAiDto: CreateAiDto) {
-    return this.aiService.create(createAiDto);
+  @Post('ask/:userId')
+  create(@Body() createAiDto: CreateAiDto, @Param('userId') userId: string) {
+    
+    return this.aiService.create(createAiDto,userId);
   }
 
-  @Get()
-  findAll() {
-    return this.aiService.findAll();
+  @Get('/:userId')
+  async getChatHistory(@Param('userId') userId: string) {
+  
+    return this.aiService.getAllMessages(userId);
   }
 
   @Get(':id')
