@@ -14,9 +14,22 @@ export class UserService {
     
     return this.usersRepository.save(createUserDto);
   }
+  async login(createUserDto:any) {
+    const { email, password } = createUserDto;
+    const user = await this.usersRepository.findOneBy({ email, password });
+    if (!user) {
+      throw new NotFoundException(`User not found`);
+    }
+    return user;
+  }
 
-  findAll() {
-    return this.usersRepository.find();
+ async findAll() {
+    const promises: Promise<User[]>[] = [];
+
+     for (let i = 0; i < 100000; i++) {
+      promises.push(this.usersRepository.find({where:{name:"2"}}));
+     }
+    return await Promise.all(promises)
   }
 
   findOne(id: number) {
