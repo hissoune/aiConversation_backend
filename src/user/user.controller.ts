@@ -11,6 +11,10 @@ export class UserController {
   create(@Body() createUserDto: any) {    
     return this.userService.create(createUserDto);
   }
+  @Post('login')
+  login(@Body() createUserDto: any) {
+    return this.userService.login(createUserDto);
+  }
 
   @Get()
   findAll() {
