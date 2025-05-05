@@ -8,8 +8,8 @@ export class AiService {
 
   private genAI = new GoogleGenAI({apiKey: 'AIzaSyBe7WfAs84desvy_rTZLXXLaL78BnRxgrw'});
 
-  async  create(createAiDto: any ) {
-   const {userId, message} = createAiDto;
+  async  create(createAiDto: any ,userId: string) {
+   const { message} = createAiDto;
     const chatHistory = this.chathestory.get(userId) || [];
     chatHistory.push({sender:"user", message});
 
@@ -25,9 +25,14 @@ export class AiService {
     return response.text;
   }
 
-  findAll() {
-    return `This action returns all ai`;
+  getAllMessages(userId: string) {
+    const chatHistory = this.chathestory.get(userId) || [];
+    return chatHistory.map((message) => {
+      return { sender: message.sender, message: message.message };
+    }
+    );
   }
+   
 
   findOne(id: number) {
     return `This action returns a #${id} ai`;
